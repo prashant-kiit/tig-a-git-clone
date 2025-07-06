@@ -4,5 +4,5 @@
         "../**/*"
     ],
     "ext": "*",
-    "exec": "tree ../"
+    "exec": "find .. -path '../.git' -prune -o -type f -print"
 }
