@@ -21,16 +21,14 @@ function separateAllFilePaths(stdout) {
 }
 
 function storeHashedFiles(hashedFiles) {
-  // console.log(hashedFiles);
-  const storeFileContent = readFileSync('./store.json', 'utf8');
+  const storeFileRelativePath = "./index.json"
+  const storeFileContent = readFileSync(storeFileRelativePath, 'utf8');
   const storeObject = JSON.parse(storeFileContent);
-  console.log(storeObject);
   storeObject.watched = hashedFiles
   const newStoreFileContent = JSON.stringify(storeObject);
-  const storeFileRelativePath = "./store.json"
 
   const tigDirectory = dirname(storeFileRelativePath);
-  const storeTempPath = join(tigDirectory, `store.tmp-${randomUUID()}`);
+  const storeTempPath = join(tigDirectory, `index.tmp-${randomUUID()}`);
   writeFileSync(storeTempPath, newStoreFileContent, 'utf8');
   renameSync(storeTempPath, storeFileRelativePath);
 
