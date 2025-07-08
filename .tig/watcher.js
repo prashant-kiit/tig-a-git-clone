@@ -1,6 +1,6 @@
 import { exec } from 'child_process';
 import { writeFileSync, readFileSync, renameSync } from 'fs';
-import { join, dirname } from 'path';
+import { join, dirname, resolve } from 'path';
 import { createHash, randomUUID } from 'crypto';
 
 function hashFiles(filePaths) {
@@ -15,8 +15,14 @@ function hashFiles(filePaths) {
   return hashedFiles;
 }
 
-function separateAllFilePaths(stdout) {
+function processAllFilePaths(stdout) {
   const filePaths = stdout.trim().split('\n');
+  const baseDir = process.cwd();
+  for (let i = 0; i < filePaths.length; i++) {
+    const fullFilePath = resolve(baseDir, filePaths[i]);
+    filePaths[i] = fullFilePath
+  }
+  console.log(filePaths);
   return filePaths;
 }
 
@@ -42,7 +48,7 @@ function listFilesUnderWatch() {
       console.error(`Error: ${error.message}`);
       return;
     }
-    const filePaths = separateAllFilePaths(stdout);
+    const filePaths = processAllFilePaths(stdout);
     const hashedFiles = hashFiles(filePaths);
     storeHashedFiles(hashedFiles);
   });
