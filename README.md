@@ -1,4 +1,4 @@
 # tig-a-git-clone
 
 # nodemon : start the watch
-# node stager.js : stage the watched changes
+# node ./stager.js stage ./watched.js : stage the watched changes

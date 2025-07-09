@@ -1,18 +1,7 @@
 import { exec } from 'child_process';
-import { writeFileSync, readFileSync, renameSync } from 'fs';
-import { join, dirname, resolve } from 'path';
-import { createHash, randomUUID } from 'crypto';
-
-function hashFiles(filePaths) {
-  let hashedFiles = {};
-  for (const filePath of filePaths) {
-    const fileContent = readFileSync(filePath, 'utf8');
-    const hashedFilePath = createHash('MD5').update(filePath).digest('hex');
-    const hashedContent = createHash('sha256').update(fileContent).digest('hex');
-    hashedFiles[hashedFilePath] = hashedContent;
-  }
-  return hashedFiles;
-}
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { deserializeFromIndex, serializeToIndex, hashFilePath, hashFileContent } from './helper.js'
 
 function processAllFilePaths(stdout) {
   const filePaths = stdout.trim().split('\n');
@@ -25,17 +14,25 @@ function processAllFilePaths(stdout) {
   return filePaths;
 }
 
-function storeHashedFiles(hashedFiles) {
-  const storeFileRelativePath = "./index.json"
-  const storeFileContent = readFileSync(storeFileRelativePath, 'utf8');
-  const storeObject = JSON.parse(storeFileContent);
-  storeObject.watched = hashedFiles
-  const newStoreFileContent = JSON.stringify(storeObject);
+function hashFiles(filePaths) {
+  let hashedFiles = {};
+  for (const filePath of filePaths) {
+    const fileContent = readFileSync(filePath, 'utf8');
+    const hashedFilePath = hashFilePath(filePath);
+    const hashedContent = hashFileContent(fileContent);
+    hashedFiles[hashedFilePath] = hashedContent;
+  }
+  return hashedFiles;
+}
 
-  const tigDirectory = dirname(storeFileRelativePath);
-  const storeTempPath = join(tigDirectory, `index.tmp-${randomUUID()}`);
-  writeFileSync(storeTempPath, newStoreFileContent, 'utf8');
-  renameSync(storeTempPath, storeFileRelativePath);
+function storeHashedFiles(hashedFiles) {
+  // deserialize
+  const storeObject = deserializeFromIndex();
+
+  storeObject.watched = hashedFiles
+
+  // serialize
+  serializeToIndex(storeObject);
 
 }
 

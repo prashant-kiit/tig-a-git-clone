@@ -1,13 +1,8 @@
-import { createHash, randomUUID } from 'crypto';
-import { resolve, dirname, join } from 'path';
-import { existsSync, readFileSync, writeFileSync, renameSync } from 'fs';
+import { resolve } from 'path';
+import { existsSync } from 'fs';
+import { serializeToIndex, deserializeFromIndex, hashFilePath } from './helper.js';
 
-function runStaging(relativePath) {
-    const hashedFilePath = hashFile(relativePath);
-    storeHashedFile(hashedFilePath);
-}
-
-function hashFile(relativePath) {
+function processFiles(relativePath) {
     process.cwd();
     process.chdir('..');
     const baseDir = process.cwd();
@@ -17,26 +12,32 @@ function hashFile(relativePath) {
         throw new Error('File does not exist');
     }
 
-    const hashedFilePath = createHash('MD5').update(fullFilePath).digest('hex');
+    return fullFilePath;
+}
 
+function hashFile(fullFilePath) {
+    const hashedFilePath = hashFilePath(fullFilePath)
     return hashedFilePath;
 }
 
 function storeHashedFile(hashedFilePath) {
     process.chdir('./.tig');
-    const storeFileRelativePath = "./index.json"
-    const storeFileContent = readFileSync(storeFileRelativePath, 'utf8');
-    const storeObject = JSON.parse(storeFileContent);
+    // deserialize
+    const storeObject = deserializeFromIndex();
 
     if(storeObject.watched[hashedFilePath]) {
         storeObject.staged[hashedFilePath] = storeObject.watched[hashedFilePath];
         delete storeObject.watched[hashedFilePath];
-        const newStoreFileContent = JSON.stringify(storeObject);
-        const tigDirectory = dirname(storeFileRelativePath);
-        const storeTempPath = join(tigDirectory, `index.tmp-${randomUUID()}`);
-        writeFileSync(storeTempPath, newStoreFileContent, 'utf8');
-        renameSync(storeTempPath, storeFileRelativePath)
+
+        // serialize
+        serializeToIndex(storeObject)
     }
+}
+
+function runStaging(relativePath) {
+    const fullFilePath = processFiles(relativePath);
+    const hashedFilePath = hashFile(fullFilePath);
+    storeHashedFile(hashedFilePath);
 }
 
 const args = process.argv.splice(2);
