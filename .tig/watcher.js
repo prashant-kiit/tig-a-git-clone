@@ -4,13 +4,12 @@ import { join, dirname, resolve } from 'path';
 import { createHash, randomUUID } from 'crypto';
 
 function hashFiles(filePaths) {
-  let hashedFiles = [];
+  let hashedFiles = {};
   for (const filePath of filePaths) {
     const fileContent = readFileSync(filePath, 'utf8');
     const hashedFilePath = createHash('MD5').update(filePath).digest('hex');
     const hashedContent = createHash('sha256').update(fileContent).digest('hex');
-    const hashedFile = hashedFilePath + "." + hashedContent;
-    hashedFiles.push(hashedFile);
+    hashedFiles[hashedFilePath] = hashedContent;
   }
   return hashedFiles;
 }
