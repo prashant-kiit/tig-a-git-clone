@@ -29,7 +29,16 @@ function storeHashedFiles(hashedFiles) {
   // deserialize
   const storeObject = deserializeFromIndex();
 
-  storeObject.watched = hashedFiles
+  // if(Object.keys(storeObject.staged).length === 0) {
+  //   storeObject.watched = hashedFiles;
+  // }
+  
+  for (const key in hashedFiles) {
+    if(storeObject.staged[key] === hashedFiles[key])
+      delete hashedFiles[key]
+  }
+
+  storeObject.watched = hashedFiles;
 
   // serialize
   serializeToIndex(storeObject);
