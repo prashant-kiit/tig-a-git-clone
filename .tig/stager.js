@@ -40,6 +40,5 @@ function runStaging(relativePath) {
     storeHashedFile(hashedFilePath);
 }
 
-const args = process.argv.splice(2);
-if (args[0] === "stage") runStaging(args[1]);
+export default runStaging;
 
