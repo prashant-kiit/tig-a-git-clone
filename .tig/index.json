@@ -1,11 +1,11 @@
 {
-    "pushed": [],
-    "commited": [
+    "pushed": [
         {
             "commit": "KdTMYSJqgRX5lS7sIC30pApVYg1mED5kMnWD8SiHhMdziH4pVwXAE5FgBLZyjJIzYXn4CYg8zoX1LhbPIHYUuR5Z3yFvAlS836zQR1PMjLBe2wTq/Btfuqdq7Obcn9H1uVpBK/+yFH3hi+ag8+DQ6oj+6/u7dfTksubnjXq1E269ej3bNJJW94Rl6RY9eCP85EsJ0fDNef1dgTfsCFbw1w0hvr5b0tkahMQ9uhxGirIfy73nbRpcyy63yyu06mwEUSxvWR1mzNJY3ZYX1Tehnw==",
             "message": "hello"
         }
     ],
+    "commited": [],
     "staged": {},
     "watched": {
         "b5b86b670a054768ce16745819b08ad2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
