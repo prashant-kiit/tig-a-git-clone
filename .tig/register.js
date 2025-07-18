@@ -5,9 +5,7 @@ import { z } from 'zod';
 
 const prompt = promptSync({ sigint: true });
 
-const MAX = 3;
-
-const inputType = {
+const InputType = {
     EMAILID: "emailId",
     PASSWORD: "password"
 }
@@ -22,40 +20,88 @@ const passwordSchema = z.string()
     .regex(/[0-9]/, 'Must contain at least one digit')
     .regex(/[^a-zA-Z0-9]/, 'Must contain at least one special character');
 
-const schema = {
-    emailId: emailSchema,
-    password: passwordSchema
-}
+class Validator {
+    constructor(inputType) {
+        switch (inputType) {
+            case InputType.EMAILID:
+                this.validator = new EmailValidator();
+                break;
 
-function readInput(inputType) {
-    let input = "";
-    let count = 0;
-    while (count < MAX) {
-        input = prompt(`Enter your ${inputType}: `);
-
-        const result = schema[inputType].safeParse(input);
-
-        if (result.success) {
-            return input;
+            case InputType.PASSWORD:
+                this.validator = new PasswordValidator();
+                break;
         }
+    }
 
-        if (count === MAX - 1) {
-            console.error(`Error: Invalid ${inputType} format`);
-            process.exit(1);
-        }
-
-        console.error(`Error: Invalid ${inputType} format. Please try again.`);
-        count++;
+    get() {
+        return this.validator;
     }
 }
 
-async function isEmailIdUnique(emailId) {
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, where('emailId', '==', emailId));
-    const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-        console.error('User ID already exists. Please choose a unique emailId.');
-        process.exit(1);
+class EmailValidator {
+    constructor() {
+    }
+
+    async validate(input) {
+        this.input = input;
+        this.checkIsDataFormatValid();
+        await this.checkIsUnique();
+        return true;
+    }
+
+    checkIsDataFormatValid() {
+        const result = emailSchema.safeParse(this.input);
+        if (!result.success) {
+            throw new Error("Error: Email Format Invalid")
+        }
+        return this;
+    }
+
+    async checkIsUnique() {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('emailId', '==', this.input));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+            throw new Error('User ID already exists. Please choose a unique emailId.')
+        }
+        return this;
+    }
+}
+
+class PasswordValidator {
+    constructor() {
+    }
+
+    validate(input) {
+        this.input = input;
+        this.checkIsDataFormatValid().get();
+        return true;
+    }
+
+    checkIsDataFormatValid() {
+        const result = passwordSchema.safeParse(this.input);
+        if (!result.success) {
+            throw new Error("Error: Password Format Invalid")
+        }
+        return this;
+    }
+}
+
+async function readInput(inputType) {
+    let input = "";
+    const validator = new Validator(inputType).get();
+    while (true) {
+        try {
+            input = prompt(`Enter your ${inputType}: `);
+            const isValid = await validator.validate(input);
+            if (isValid) {
+                return input;
+            }
+        } catch (error) {
+            console.error(error.message);
+            console.log("Please try again");
+            continue;
+        }
     }
 }
 
@@ -73,9 +119,8 @@ async function addUser(user) {
 
 // email Id and password validation
 async function runRegister() {
-    const emailId = readInput(inputType.EMAILID);
-    await isEmailIdUnique(emailId);
-    const password = readInput(inputType.PASSWORD);
+    const emailId = await readInput(InputType.EMAILID);
+    const password = await readInput(InputType.PASSWORD);
 
     const user = {
         emailId,
