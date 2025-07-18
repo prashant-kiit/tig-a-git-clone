@@ -59,3 +59,7 @@ class Encryptor {
 }
 
 export const encryptor = new Encryptor('your-secret-password');
+
+export function hashPassword(password) {
+    return createHash('MD5').update(password).digest('hex');
+}
