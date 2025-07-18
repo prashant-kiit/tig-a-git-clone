@@ -7,6 +7,11 @@ const prompt = promptSync({ sigint: true });
 
 const MAX = 3;
 
+const inputType = {
+    EMAILID: "emailId",
+    PASSWORD: "password"
+}
+
 const emailSchema = z.email();
 
 const passwordSchema = z.string()
@@ -27,30 +32,36 @@ function readInput(inputType) {
     let count = 0;
     while (count < MAX) {
         input = prompt(`Enter your ${inputType}: `);
+
         const result = schema[inputType].safeParse(input);
+
         if (result.success) {
             return input;
         }
+
         if (count === MAX - 1) {
-            console.log(`Error: Invalid ${inputType} format`);
-            process.exit(0);
+            console.error(`Error: Invalid ${inputType} format`);
+            process.exit(1);
         }
-        console.log(`Error: Invalid ${inputType} format. Please try again.`);
+
+        console.error(`Error: Invalid ${inputType} format. Please try again.`);
         count++;
+    }
+}
+
+async function isEmailIdUnique(emailId) {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where('emailId', '==', emailId));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+        console.error('User ID already exists. Please choose a unique emailId.');
+        process.exit(1);
     }
 }
 
 async function addUser(user) {
     try {
         const usersRef = collection(db, 'users');
-        const q = query(usersRef, where('emailId', '==', user.emailId));
-        const snapshot = await getDocs(q);
-
-        if (!snapshot.empty) {
-            console.log('User ID already exists. Please choose a unique emailId.');
-            process.exit(1);
-        }
-
         const docRef = await addDoc(usersRef, user);
         console.log('User added with ID:', docRef.id);
         process.exit(0);
@@ -61,9 +72,10 @@ async function addUser(user) {
 }
 
 // email Id and password validation
-function runRegister() {
-    const emailId = readInput("emailId")
-    const password = readInput("password")
+async function runRegister() {
+    const emailId = readInput(inputType.EMAILID);
+    await isEmailIdUnique(emailId);
+    const password = readInput(inputType.PASSWORD);
 
     const user = {
         emailId,
