@@ -2,6 +2,7 @@ import db from './tigstore.js';
 import { collection, getDocs, addDoc, query, where } from 'firebase/firestore';
 import promptSync from 'prompt-sync';
 import { z } from 'zod';
+import { hashPassword } from './helper.js';
 
 const prompt = promptSync({ sigint: true });
 
@@ -74,7 +75,7 @@ class PasswordValidator {
 
     validate(input) {
         this.input = input;
-        this.checkIsDataFormatValid().get();
+        this.checkIsDataFormatValid();
         return true;
     }
 
@@ -120,7 +121,7 @@ async function addUser(user) {
 // email Id and password validation
 async function runRegister() {
     const emailId = await readInput(InputType.EMAILID);
-    const password = await readInput(InputType.PASSWORD);
+    const password = hashPassword(await readInput(InputType.PASSWORD));
 
     const user = {
         emailId,
