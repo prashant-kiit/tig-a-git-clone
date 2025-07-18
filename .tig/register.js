@@ -53,7 +53,7 @@ class EmailValidator {
     checkIsDataFormatValid() {
         const result = emailSchema.safeParse(this.input);
         if (!result.success) {
-            throw new Error("Error: Email Format Invalid")
+            throw new Error("Error: Email Format Invalid.")
         }
         return this;
     }
@@ -82,7 +82,7 @@ class PasswordValidator {
     checkIsDataFormatValid() {
         const result = passwordSchema.safeParse(this.input);
         if (!result.success) {
-            throw new Error("Error: Password Format Invalid")
+            throw new Error("Error: Password Format Invalid.")
         }
         return this;
     }
@@ -100,7 +100,7 @@ async function readInput(inputType) {
             }
         } catch (error) {
             console.error(error.message);
-            console.log("Please try again");
+            console.log("Please try again.");
             continue;
         }
     }

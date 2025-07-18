@@ -42,7 +42,7 @@ function storeHashedFiles(hashedFiles) {
 }
 
 function listFilesUnderWatch() {
-  const cmd = "find .. \\( -path '../.git' -o -path '../.tig' \\) -prune -o -type f -print";
+  const cmd = "find .. \\( -path '../.git' -o -path '../.tig' -o -path '../.tigserver'\\) -prune -o -type f -print";
 
   exec(cmd, (error, stdout, stderr) => {
     if (error || stderr) {
