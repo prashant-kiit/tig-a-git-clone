@@ -12,7 +12,7 @@ function shortenStagedChanges(stagedChanges) {
 
 function storeCommit(commit, message) {
     const storeObject = deserializeFromIndex();
-    storeObject.commited.push({
+    storeObject.committed.push({
         commit,
         message
     })

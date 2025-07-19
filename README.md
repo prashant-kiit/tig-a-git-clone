@@ -6,3 +6,5 @@
 
 # https://www.youtube.com/watch?v=RxHJdapz2p0
 # https://databasesample.com/database/github-database
+
+# Key Tar Secure Vault: npm install -g node-gyp && npm install 
