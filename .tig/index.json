@@ -1,14 +1,11 @@
 {
-    "pushed": [
-        {
-            "commit": "KdTMYSJqgRX5lS7sIC30pApVYg1mED5kMnWD8SiHhMdziH4pVwXAE5FgBLZyjJIzYXn4CYg8zoX1LhbPIHYUuR5Z3yFvAlS836zQR1PMjLBe2wTq/Btfuqdq7Obcn9H1uVpBK/+yFH3hi+ag8+DQ6oj+6/u7dfTksubnjXq1E269ej3bNJJW94Rl6RY9eCP85EsJ0fDNef1dgTfsCFbw1w0hvr5b0tkahMQ9uhxGirIfy73nbRpcyy63yyu06mwEUSxvWR1mzNJY3ZYX1Tehnw==",
-            "message": "hello"
-        }
-    ],
+    "pushed": [],
     "committed": [],
     "staged": {},
     "watched": {
         "b5b86b670a054768ce16745819b08ad2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
-        "31782b8243792887a1c94df53c59ad67": "1e1785dbbbf4fbea653bd650e9ed96fa62c144927b543f155908c3d46d3dceb5"
+        "b7455f45b851bba5dca1dad80faa7def": "dc75ce29fe8d2a3d68e5fc6854bd17fb969464d8875dd73d6e60a12149daff6f",
+        "31782b8243792887a1c94df53c59ad67": "03aedd135b923ce2294205d3e365c376588498741fb1ad65bfcebc842546a568",
+        "d7a68124c5b2b50b40f891b7ec719bca": "2451ad73f85713b34a4cc95301945d3b23524186ba88c1d0e052e9b8d0b9e722"
     }
 }
