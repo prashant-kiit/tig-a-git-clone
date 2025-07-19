@@ -63,7 +63,7 @@ async function runLogin() {
     }
     // login(user);
     const token = await loginAPI(user);
-    storeToken(emailId, token);
+    storeToken(token);
 }
 
 export default runLogin;

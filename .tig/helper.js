@@ -65,13 +65,14 @@ export function hashPassword(password) {
     return createHash('MD5').update(password).digest('hex');
 }
 
-const SERVICE_NAME = 'tig-app';
+const SERVICE = 'tig-app';
+const ACCOUNT = 'ACTIVE-USER'
 
-export async function storeToken(emailId, token) {
-    await keytar.setPassword(SERVICE_NAME, emailId, token);
+export async function storeToken(token) {
+    await keytar.setPassword(SERVICE, ACCOUNT, token);
 }
 
-export async function retrieveToken(emailId) {
-    const token = await keytar.getPassword(SERVICE_NAME, emailId);
+export async function retrieveToken() {
+    const token = await keytar.getPassword(SERVICE, ACCOUNT);
     return token;
 }
