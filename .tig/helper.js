@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, renameSync } from 'fs';
 import { join, dirname } from 'path';
 import { randomUUID, createHash, createCipheriv, createDecipheriv } from 'crypto';
+import keytar from 'keytar';
 
 const storeFileRelativePath = "./index.json"
 
@@ -62,4 +63,15 @@ export const encryptor = new Encryptor('your-secret-password');
 
 export function hashPassword(password) {
     return createHash('MD5').update(password).digest('hex');
+}
+
+const SERVICE_NAME = 'tig-app';
+
+export async function storeToken(emailId, token) {
+    await keytar.setPassword(SERVICE_NAME, emailId, token);
+}
+
+export async function retrieveToken(emailId) {
+    const token = await keytar.getPassword(SERVICE_NAME, emailId);
+    return token;
 }

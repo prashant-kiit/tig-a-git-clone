@@ -1,7 +1,7 @@
 import promptSync from 'prompt-sync';
 import db from './tigstore.js';
 import { collection, getDocs, updateDoc, query, where } from 'firebase/firestore';
-import { hashPassword } from './helper.js';
+import { hashPassword, storeToken } from './helper.js';
 import axios from 'axios';
 
 const prompt = promptSync({ sigint: true });
@@ -47,6 +47,7 @@ async function loginAPI(user) {
     try {
         const response = await axios.post('http://localhost:3000/login', user);
         console.log('Response:', response.data);
+        return response.data.body.token;
     } catch (error) {
         console.error('Error:', error.response?.data || error.message);
     }
@@ -61,7 +62,8 @@ async function runLogin() {
         isLoggedIn: true
     }
     // login(user);
-    loginAPI(user);
+    const token = await loginAPI(user);
+    storeToken(emailId, token);
 }
 
 export default runLogin;

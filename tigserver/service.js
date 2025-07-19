@@ -7,7 +7,7 @@ export async function loginService(user) {
     const q = query(usersRef, where('emailId', '==', user.emailId), where('password', '==', user.password));
     const snapshot = await getDocs(q);
     if (snapshot.empty || snapshot.docs.length === 0) {
-        throw new Error('User does not exist.')
+        throw new Error('User cannot be authenticated.')
     }
     await updateDoc(snapshot.docs[0].ref, user);
 
