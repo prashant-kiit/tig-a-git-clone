@@ -109,8 +109,8 @@ async function readInput(inputType) {
 async function addUser(user) {
     try {
         const usersRef = collection(db, 'users');
-        const docRef = await addDoc(usersRef, user);
-        console.log('User added with ID:', docRef.id);
+        const userRef = await addDoc(usersRef, user);
+        console.log('User added with ID:', userRef.id);
         process.exit(0);
     } catch (err) {
         console.error('Error adding user:', err);

@@ -66,13 +66,24 @@ export function hashPassword(password) {
 }
 
 const SERVICE = 'tig-app';
-const ACCOUNT = 'ACTIVE-USER'
+const ACTIVEUSER = 'ACTIVE-USER'
+const ACTIVEREMOTEREPO = 'ACTIVE-REMOTE-REPO'
 
 export async function storeToken(token) {
-    await keytar.setPassword(SERVICE, ACCOUNT, token);
-}
+    await keytar.setPassword(SERVICE, ACTIVEUSER, token);
+}   
 
 export async function retrieveToken() {
-    const token = await keytar.getPassword(SERVICE, ACCOUNT);
+    const token = await keytar.getPassword(SERVICE, ACTIVEUSER);
     return token;
 }
+
+export async function storeRepo(repo) {
+    await keytar.setPassword(SERVICE, ACTIVEREMOTEREPO, JSON.stringify(repo));
+}
+
+export async function retrieveRepo() {
+    const repo = await keytar.getPassword(SERVICE, ACTIVEREMOTEREPO);
+    return repo;
+}
+

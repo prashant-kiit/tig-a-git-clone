@@ -1,18 +1,39 @@
-import { loginService } from './service.js';
+import { loginService, repoService } from './service.js';
 
 export const loginContoller = async (req, res) => {
     try {
         const user = req.body;
         const userLoggedIn = await loginService(user);
-        console.error("Successfully logged in");
+        console.log("Successfully logged in");
         res.status(200).json({
             message: "Successfully logged in",
             body: userLoggedIn
         })
         return;
     } catch (error) {
-        console.error(error.message);
-        res.status(500).json({
+        console.error(error);
+        res.status(error.statusCode || 500).json({
+            message: error.message,
+            error: error
+        });
+        return;
+    }
+}
+
+export const repoContoller = async (req, res) => {
+    try {
+        const repo = req.body.repo;
+        const user = req.user;
+        const repoCreated = await repoService(repo, user);
+        console.log("Repository added successfully.");
+        res.status(200).json({
+            message: "Repository added successfully.",
+            body: repoCreated
+        });
+        return;
+    } catch (error) {
+        console.error(error);
+        res.status(error.statusCode || 500).json({
             message: error.message,
             error: error
         });
