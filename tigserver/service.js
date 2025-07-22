@@ -1,5 +1,5 @@
 import db from './tigstore.js';
-import { collection, getDocs, updateDoc, addDoc, query, where } from 'firebase/firestore';
+import { collection, doc, getDocs, updateDoc, addDoc, query, where, arrayUnion } from 'firebase/firestore';
 import jwt from 'jsonwebtoken';
 import CustomError from './customError.js';
 
@@ -29,11 +29,33 @@ export async function repoService(repo, user) {
     if (!(snapshot.empty || snapshot.docs.length === 0)) {
         throw new CustomError("DUPLICATION_ERROR", 409, 'Repo already exists.')
     }
-    const repoPayload = { name: repo.name, owner: user.emailId }
+    const repoPayload = { name: repo.name, owner: user.emailId, commits: [] }
     const repoRef = await addDoc(reposRef, repoPayload);
 
     return {
         name: repo.name,
         repoId: repoRef.id
+    };
+}
+
+export async function pushService(user, repo, pushed) {
+    const reposRef = collection(db, 'repos');
+    const q = query(reposRef, where('name', '==', repo.name), where('owner', '==', user.emailId));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty || snapshot.docs.length === 0) {
+        throw new CustomError("NOT_FOUND", 409, 'Repo for given user not found.')
+    }
+    const repoDoc = snapshot.docs[0]; 
+    const repoDocData = repoDoc.data();
+    const oldCommitsCount = repoDocData.commits.length;
+    const repoRef = doc(db, 'repos', repoDoc.id);
+    await updateDoc(repoRef, {
+      commits: arrayUnion(...pushed)
+    });
+
+    return {
+        name: repo.name,
+        repoId: repoRef.id,
+        commitsCount: pushed.length - oldCommitsCount
     };
 }

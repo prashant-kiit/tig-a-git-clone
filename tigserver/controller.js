@@ -1,4 +1,4 @@
-import { loginService, repoService } from './service.js';
+import { loginService, repoService, pushService } from './service.js';
 
 export const loginContoller = async (req, res) => {
     try {
@@ -28,6 +28,28 @@ export const repoContoller = async (req, res) => {
         console.log("Repository added successfully.");
         res.status(200).json({
             message: "Repository added successfully.",
+            body: repoCreated
+        });
+        return;
+    } catch (error) {
+        console.error(error);
+        res.status(error.statusCode || 500).json({
+            message: error.message,
+            error: error
+        });
+        return;
+    }
+}
+
+export const pushContoller = async (req, res) => {
+    try {
+        const pushed = req.body.pushed;
+        const repo = req.body.repo;
+        const user = req.user;
+        const repoCreated = await pushService(user, repo, pushed);
+        console.log("Commits pushed successfully.");
+        res.status(200).json({
+            message: "Commits pushed successfully.",
             body: repoCreated
         });
         return;

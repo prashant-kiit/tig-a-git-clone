@@ -27,22 +27,6 @@ async function readInput(inputType) {
     }
 }
 
-async function login(user) {
-    try {
-        const usersRef = collection(db, 'users');
-        const q = query(usersRef, where('emailId', '==', user.emailId), where('password', '==', user.password));
-        const snapshot = await getDocs(q);
-        if (snapshot.empty || snapshot.docs.length === 0) {
-            throw new Error('User does not exist.')
-        }
-        await updateDoc(snapshot.docs[0].ref, user);
-        process.exit(0);
-    } catch (error) {
-        console.error(error.message);
-        process.exit(1);
-    }
-}
-
 async function loginAPI(user) {
     try {
         const response = await axios.post('http://localhost:3000/login', user);
@@ -63,7 +47,8 @@ async function runLogin() {
     }
     // login(user);
     const token = await loginAPI(user);
-    storeToken(token);
+    if (token)
+        storeToken(token);
 }
 
 export default runLogin;
