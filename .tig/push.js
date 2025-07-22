@@ -5,7 +5,7 @@ async function runPush() {
     const storeObject = deserializeFromIndex();
     storeObject.pushed = storeObject.committed;
 
-    const repo = JSON.parse(await retrieveRepo());
+    const repo = await retrieveRepo();
     const body = {
         pushed: storeObject.pushed,
         repo
@@ -18,7 +18,7 @@ async function runPush() {
         headers
     });
     console.log(response.data);
-    
+
     serializeToIndex(storeObject)
 }
 

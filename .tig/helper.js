@@ -83,7 +83,7 @@ export async function storeRepo(repo) {
 }
 
 export async function retrieveRepo() {
-    const repo = await keytar.getPassword(SERVICE, ACTIVEREMOTEREPO);
+    const repo = JSON.parse(await keytar.getPassword(SERVICE, ACTIVEREMOTEREPO));
     return repo;
 }
 

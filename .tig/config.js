@@ -2,7 +2,7 @@ import { retrieveRepo, retrieveToken } from "./helper.js";
 
 async function runConfig() {
     const token = await retrieveToken();
-    const repo  = JSON.parse(await retrieveRepo());
+    const repo  = await retrieveRepo();
     const config = {
         token,
         repo,
