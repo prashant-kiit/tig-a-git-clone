@@ -1,5 +1,4 @@
-import { retrieveToken, storeRepo } from "./helper.js";
-import axios from "axios";
+import { storeRepo, callServer } from "./helper.js";
 
 async function addRepoAPI(repoName) {
     try {
@@ -8,11 +7,7 @@ async function addRepoAPI(repoName) {
                 name: repoName,
             }
         }
-        const token = await retrieveToken();
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        }
-        const response = await axios.post("http://localhost:3000/repo", body, { headers })
+        const response = await callServer("POST", "/repo", body);
 
         return response.data.body;
     } catch (error) {

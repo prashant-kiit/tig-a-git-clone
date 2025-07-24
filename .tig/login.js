@@ -1,8 +1,5 @@
 import promptSync from 'prompt-sync';
-import db from './tigstore.js';
-import { collection, getDocs, updateDoc, query, where } from 'firebase/firestore';
-import { hashPassword, storeToken } from './helper.js';
-import axios from 'axios';
+import { hashPassword, storeToken, storeRefreshToken, callServer, retrieveToken, retrieveRefreshToken } from './helper.js';
 
 const prompt = promptSync({ sigint: true });
 
@@ -29,26 +26,39 @@ async function readInput(inputType) {
 
 async function loginAPI(user) {
     try {
-        const response = await axios.post('http://localhost:3000/login', user);
-        console.log('Response:', response.data);
-        return response.data.body.token;
+        // const response = await axios.post('http://localhost:3000/login', user);
+        const response = await callServer("POST", "/login", user);
+        return {
+            token: response.data.body.token,
+            refreshToken: response.data.body.refreshToken
+        };
     } catch (error) {
-        console.error('Error:', error.response?.data || error.message);
+        throw new Error(error.message);
     }
 }
 
 async function runLogin() {
-    const emailId = await readInput(InputType.EMAILID);
-    const password = hashPassword(await readInput(InputType.PASSWORD));
-    const user = {
-        emailId,
-        password,
-        isLoggedIn: true
+    try {
+        if (await retrieveToken() !== "-" || await retrieveRefreshToken() !== "-") {
+            console.log("Already Logged In");
+            return;
+        }
+
+        const emailId = await readInput(InputType.EMAILID);
+        const password = hashPassword(await readInput(InputType.PASSWORD));
+        const user = {
+            emailId,
+            password,
+        }
+
+        const { token, refreshToken } = await loginAPI(user);
+        if (token) {
+            storeToken(token);
+            storeRefreshToken(refreshToken);
+        }
+    } catch (error) {
+        console.error(error.message);
     }
-    // login(user);
-    const token = await loginAPI(user);
-    if (token)
-        storeToken(token);
 }
 
 export default runLogin;
