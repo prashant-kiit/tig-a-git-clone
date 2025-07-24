@@ -1,4 +1,4 @@
-import { loginService, repoService, pushService } from './service.js';
+import { loginService, repoService, pushService, logoutService } from './service.js';
 
 export const loginContoller = async (req, res) => {
     try {
@@ -52,6 +52,26 @@ export const pushContoller = async (req, res) => {
             message: "Commits pushed successfully.",
             body: repoCreated
         });
+        return;
+    } catch (error) {
+        console.error(error);
+        res.status(error.statusCode || 500).json({
+            message: error.message,
+            error: error
+        });
+        return;
+    }
+}
+
+export const logoutContoller = async (req, res) => {
+    try {
+        const user = req.user;
+        const userLoggedOut = await logoutService(user);
+        console.log("Successfully logged out");
+        res.status(200).json({
+            message: "Successfully logged out",
+            body: userLoggedOut
+        })
         return;
     } catch (error) {
         console.error(error);
