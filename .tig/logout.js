@@ -1,4 +1,4 @@
-import { callServer, storeRefreshToken, storeToken, retrieveToken, retrieveRefreshToken } from "./helper.js";
+import { callServer, storeRefreshToken, storeToken, retrieveToken, retrieveRefreshToken, storeUserId } from "./helper.js";
 
 async function runLogout() {
     try {
@@ -6,11 +6,13 @@ async function runLogout() {
             console.log("Not Logged In");
             return;
         }
-        await callServer("POST", "/logout",)
+        const response = await callServer("POST", "/logout")
+        storeUserId("-");
         storeToken("-");
         storeRefreshToken("-");
+        console.log(response.data);
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
     }
 
 }

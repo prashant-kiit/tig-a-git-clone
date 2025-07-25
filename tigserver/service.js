@@ -10,15 +10,21 @@ export async function loginService(user) {
     if (snapshot.empty || snapshot.docs.length === 0) {
         throw new CustomError("AUTHENCIATION_ERROR", 401, 'User cannot be authenticated.')
     }
+    user.isLoggedIn = true;
     await updateDoc(snapshot.docs[0].ref, user);
 
     const token = jwt.sign({ emailId: user.emailId }, process.env.JWT_SECRET, {
         expiresIn: '1h'
     });
 
+    const refreshToken = jwt.sign({ emailId: user.emailId }, process.env.JWT_SECRET, {
+        expiresIn: '800h'
+    });
+
     return {
         emailId: user.emailId,
-        token: token
+        token: token,
+        refreshToken: refreshToken
     }
 }
 
@@ -58,4 +64,56 @@ export async function pushService(user, repo, pushed) {
         repoId: repoRef.id,
         commitsCount: pushed.length - oldCommitsCount
     };
+}
+
+export async function logoutService(user) {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where('emailId', '==', user.emailId));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty || snapshot.docs.length === 0) {
+        throw new CustomError("NOT_FOUND", 401, 'User cannot be found.')
+    }
+    await updateDoc(snapshot.docs[0].ref, {
+        isLoggedIn: false
+    });
+
+    return {
+        emailId: user.emailId,
+    }
+}
+
+export async function refreshService(refreshToken) {
+    const user = jwt.verify(refreshToken, process.env.JWT_SECRET + "--");
+
+    const newToken = jwt.sign({ emailId: user.emailId }, process.env.JWT_SECRET, {
+        expiresIn: '1h'
+    });
+
+    const newRefreshToken = jwt.sign({ emailId: user.emailId }, process.env.JWT_SECRET, {
+        expiresIn: '800h'
+    });
+
+    console.log("Refresh", newToken, newRefreshToken)
+
+    return {
+        emailId: user.emailId,
+        token: newToken,
+        refreshToken: newRefreshToken
+    }
+}
+
+export async function forcedLogoutService(userId) {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where('emailId', '==', userId));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty || snapshot.docs.length === 0) {
+        throw new CustomError("AUTHENCIATION_ERROR", 401, 'User cannot be authenticated.')
+    }
+    await updateDoc(snapshot.docs[0].ref, {
+        isLoggedIn: false
+    });
+
+    return {
+        emailId: userId,
+    }
 }

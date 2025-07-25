@@ -10,17 +10,19 @@ export function authorize(req, res, next) {
     try {
         const token = req.headers["authorization"].split(' ')[1]
         if (!token)
-            throw new CustomError("AUTHORIZATION_ERROR", 401, "Acces denied. Token not found.")
+            throw new CustomError("AUTHORIZATION_ERROR", 403, "Access denied. Token not found.")
         const user = jwt.verify(token, process.env.JWT_SECRET);
         req.user = user;
         next()
+        return;
     }
     catch (error) {
-        console.error(error.message);
-        return res.status(error.statusCode || 500).json({
+        console.error(error);
+        res.status(error.statusCode || 403).json({
             message: error.message,
             error: error
         });
+        return;
     }
 
 }

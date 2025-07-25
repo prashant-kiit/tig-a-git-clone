@@ -1,5 +1,5 @@
 import promptSync from 'prompt-sync';
-import { hashPassword, storeToken, storeRefreshToken, callServer, retrieveToken, retrieveRefreshToken } from './helper.js';
+import { hashPassword, storeToken, storeRefreshToken, callServer, retrieveToken, retrieveRefreshToken, storeUserId } from './helper.js';
 
 const prompt = promptSync({ sigint: true });
 
@@ -29,6 +29,7 @@ async function loginAPI(user) {
         // const response = await axios.post('http://localhost:3000/login', user);
         const response = await callServer("POST", "/login", user);
         return {
+            userId: response.data.body.emailId,
             token: response.data.body.token,
             refreshToken: response.data.body.refreshToken
         };
@@ -51,13 +52,16 @@ async function runLogin() {
             password,
         }
 
-        const { token, refreshToken } = await loginAPI(user);
+        const { userId, token, refreshToken } = await loginAPI(user);
         if (token) {
+            storeUserId(userId);
             storeToken(token);
             storeRefreshToken(refreshToken);
         }
+
+        console.log({ userId, token, refreshToken });
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
     }
 }
 

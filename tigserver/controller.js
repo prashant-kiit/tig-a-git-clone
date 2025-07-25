@@ -1,4 +1,4 @@
-import { loginService, repoService, pushService, logoutService } from './service.js';
+import { loginService, repoService, pushService, logoutService, refreshService, forcedLogoutService } from './service.js';
 
 export const loginContoller = async (req, res) => {
     try {
@@ -74,6 +74,28 @@ export const logoutContoller = async (req, res) => {
         })
         return;
     } catch (error) {
+        console.error(error);
+        res.status(error.statusCode || 500).json({
+            message: error.message,
+            error: error
+        });
+        return;
+    }
+}
+
+export const refreshContoller = async (req, res) => {
+    const userId = req.headers["userid"];
+    try {
+        const refreshToken = req.body.refreshToken;
+        const userLoggedIn = await refreshService(refreshToken);
+        console.log("Successfully refreshed");
+        res.status(200).json({
+            message: "Successfully refreshed",
+            body: userLoggedIn
+        })
+        return;
+    } catch (error) {
+        await forcedLogoutService(userId)
         console.error(error);
         res.status(error.statusCode || 500).json({
             message: error.message,

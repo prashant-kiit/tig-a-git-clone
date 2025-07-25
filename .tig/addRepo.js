@@ -11,7 +11,7 @@ async function addRepoAPI(repoName) {
 
         return response.data.body;
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
     }
 }
 

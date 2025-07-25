@@ -2,7 +2,7 @@ import { writeFileSync, readFileSync, renameSync } from 'fs';
 import { join, dirname } from 'path';
 import { randomUUID, createHash, createCipheriv, createDecipheriv } from 'crypto';
 import keytar from 'keytar';
-import axios from "axios";
+import api from './api.js';
 
 const storeFileRelativePath = "./index.json"
 
@@ -69,6 +69,7 @@ export function hashPassword(password) {
 const SERVICE = 'tig-app';
 const ACTIVEUSERTOKEN = 'ACTIVE-USER-TOKEN'
 const ACTIVEUSERREFRESHTOKEN = 'ACTIVE-USER-REFRESH-TOKEN'
+const ACTIVEUSERID = 'ACTIVE-USERID'
 const ACTIVEREMOTEREPO = 'ACTIVE-REMOTE-REPO'
 
 export async function storeToken(token) {
@@ -98,19 +99,21 @@ export async function retrieveRefreshToken() {
     return token;
 }
 
+export async function storeUserId(userId) {
+    await keytar.setPassword(SERVICE, ACTIVEUSERID, userId);
+}
+
+export async function retrieveUserId() {
+    const userId = await keytar.getPassword(SERVICE, ACTIVEUSERID);
+    return userId;
+}
+
 export async function callServer(method = "GET", path = "/", body = {}) {
+    let response = "";
     try {
-        const token = await retrieveToken();
-        const headers = {
-            'Authorization': `Bearer ${token}`
-        }
-
-        let response = "";
         if (method === "POST")
-            response = await axios.post(`http://localhost:3000${path}`, body, { headers })
+            response = await api.post(path, body)
 
-
-        console.log(response.data);
         return response;
     } catch (error) {
         throw new Error(error.response?.data.message || error.message);

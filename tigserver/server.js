@@ -1,7 +1,7 @@
 // app.js
 import express from 'express';
 import dotenv from 'dotenv';
-import { loginContoller, repoContoller, pushContoller, logoutContoller} from './controller.js';
+import { loginContoller, repoContoller, pushContoller, logoutContoller, refreshContoller } from './controller.js';
 import { authorize } from './middleware.js';
 
 dotenv.config();
@@ -11,6 +11,7 @@ const port = 3000;
 app.use(express.json());
 
 app.post('/login', loginContoller);
+app.post('/refresh', refreshContoller);
 app.use(authorize);
 app.post('/repo', repoContoller);
 app.post('/push', pushContoller);
