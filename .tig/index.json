@@ -1,1 +1,45 @@
-{"pushed":[{"commit":"vdZnifO2Z+qNehBOJFlKmoSEu8NtqjxNdeHUH/ixaSUK3No7i4RlAwqKGkBgpiFqakMDgb92LsGysK2HAC99ro39Z0JNQYuGhGSUzhupbXDUf+7OnexzGatq80RqLuJQfrK6cOui3RaaLO1sZRFZxw==","message":"added a new change"},{"commit":"lYujcDbryaX2iMe4r3AziFVATuTpE8D5lui7VNt+wu4dG6KdFh7dRY4+maydYv6Qh0EYVt3lzOggMGP8C+ybLlXeYq0E9LSihWcxhH+LfMaSX60X3OgMalcIYsEV2R0zcStxSJ6sm5olIaomSSyXoQ==","message":"another change"},{"commit":"qJZUC0CIN3xJvUvcvkQaRAy70YZLdwmBv5+iI2MN2eY0vW/+Du1FxqZTMgIgIb/bk59VI1V21QbMzKcWRtcnsQf5y1rPfsBcM933tSfkUwlTcCIigfGgYRSxxhKberuHa3oj/9+FPav85ljRChGGVA==","message":"change once again"},{"commit":"MzKg0nfl9HUKNvwjURoX+pcHO0XoiTSr33N5TJbjODa7taDtRVRwW1QYItmpA6e38befv6+43kqp9SFwZgdJzqFs9Lu5nk6oXdVNnm28L7LukhvrSsb5RAO1xrYUJWeKPPVPBmkYaaG2AM9hMSc5nQ==","message":"hello to universe and world"}],"committed":[{"commit":"vdZnifO2Z+qNehBOJFlKmoSEu8NtqjxNdeHUH/ixaSUK3No7i4RlAwqKGkBgpiFqakMDgb92LsGysK2HAC99ro39Z0JNQYuGhGSUzhupbXDUf+7OnexzGatq80RqLuJQfrK6cOui3RaaLO1sZRFZxw==","message":"added a new change"},{"commit":"lYujcDbryaX2iMe4r3AziFVATuTpE8D5lui7VNt+wu4dG6KdFh7dRY4+maydYv6Qh0EYVt3lzOggMGP8C+ybLlXeYq0E9LSihWcxhH+LfMaSX60X3OgMalcIYsEV2R0zcStxSJ6sm5olIaomSSyXoQ==","message":"another change"},{"commit":"qJZUC0CIN3xJvUvcvkQaRAy70YZLdwmBv5+iI2MN2eY0vW/+Du1FxqZTMgIgIb/bk59VI1V21QbMzKcWRtcnsQf5y1rPfsBcM933tSfkUwlTcCIigfGgYRSxxhKberuHa3oj/9+FPav85ljRChGGVA==","message":"change once again"},{"commit":"MzKg0nfl9HUKNvwjURoX+pcHO0XoiTSr33N5TJbjODa7taDtRVRwW1QYItmpA6e38befv6+43kqp9SFwZgdJzqFs9Lu5nk6oXdVNnm28L7LukhvrSsb5RAO1xrYUJWeKPPVPBmkYaaG2AM9hMSc5nQ==","message":"hello to universe and world"}],"staged":{},"watched":{"b5b86b670a054768ce16745819b08ad2":"c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4","b7455f45b851bba5dca1dad80faa7def":"dbea28b305e94e00dc9048128cb7d4be3d7fa3dc885fb41661ff3220a3c60097","31782b8243792887a1c94df53c59ad67":"03aedd135b923ce2294205d3e365c376588498741fb1ad65bfcebc842546a568","d7a68124c5b2b50b40f891b7ec719bca":"537a15500e92b738beabda44534ecd3dbe8f392a8f9fcc508b458ed0e8b3c0bf"}}
+{
+  "pushed": [
+    {
+      "commit": "vdZnifO2Z+qNehBOJFlKmoSEu8NtqjxNdeHUH/ixaSUK3No7i4RlAwqKGkBgpiFqakMDgb92LsGysK2HAC99ro39Z0JNQYuGhGSUzhupbXDUf+7OnexzGatq80RqLuJQfrK6cOui3RaaLO1sZRFZxw==",
+      "message": "added a new change"
+    },
+    {
+      "commit": "lYujcDbryaX2iMe4r3AziFVATuTpE8D5lui7VNt+wu4dG6KdFh7dRY4+maydYv6Qh0EYVt3lzOggMGP8C+ybLlXeYq0E9LSihWcxhH+LfMaSX60X3OgMalcIYsEV2R0zcStxSJ6sm5olIaomSSyXoQ==",
+      "message": "another change"
+    },
+    {
+      "commit": "qJZUC0CIN3xJvUvcvkQaRAy70YZLdwmBv5+iI2MN2eY0vW/+Du1FxqZTMgIgIb/bk59VI1V21QbMzKcWRtcnsQf5y1rPfsBcM933tSfkUwlTcCIigfGgYRSxxhKberuHa3oj/9+FPav85ljRChGGVA==",
+      "message": "change once again"
+    },
+    {
+      "commit": "MzKg0nfl9HUKNvwjURoX+pcHO0XoiTSr33N5TJbjODa7taDtRVRwW1QYItmpA6e38befv6+43kqp9SFwZgdJzqFs9Lu5nk6oXdVNnm28L7LukhvrSsb5RAO1xrYUJWeKPPVPBmkYaaG2AM9hMSc5nQ==",
+      "message": "hello to universe and world"
+    }
+  ],
+  "committed": [
+    {
+      "commit": "vdZnifO2Z+qNehBOJFlKmoSEu8NtqjxNdeHUH/ixaSUK3No7i4RlAwqKGkBgpiFqakMDgb92LsGysK2HAC99ro39Z0JNQYuGhGSUzhupbXDUf+7OnexzGatq80RqLuJQfrK6cOui3RaaLO1sZRFZxw==",
+      "message": "added a new change"
+    },
+    {
+      "commit": "lYujcDbryaX2iMe4r3AziFVATuTpE8D5lui7VNt+wu4dG6KdFh7dRY4+maydYv6Qh0EYVt3lzOggMGP8C+ybLlXeYq0E9LSihWcxhH+LfMaSX60X3OgMalcIYsEV2R0zcStxSJ6sm5olIaomSSyXoQ==",
+      "message": "another change"
+    },
+    {
+      "commit": "qJZUC0CIN3xJvUvcvkQaRAy70YZLdwmBv5+iI2MN2eY0vW/+Du1FxqZTMgIgIb/bk59VI1V21QbMzKcWRtcnsQf5y1rPfsBcM933tSfkUwlTcCIigfGgYRSxxhKberuHa3oj/9+FPav85ljRChGGVA==",
+      "message": "change once again"
+    },
+    {
+      "commit": "MzKg0nfl9HUKNvwjURoX+pcHO0XoiTSr33N5TJbjODa7taDtRVRwW1QYItmpA6e38befv6+43kqp9SFwZgdJzqFs9Lu5nk6oXdVNnm28L7LukhvrSsb5RAO1xrYUJWeKPPVPBmkYaaG2AM9hMSc5nQ==",
+      "message": "hello to universe and world"
+    }
+  ],
+  "staged": {},
+  "watched": {
+    "b5b86b670a054768ce16745819b08ad2": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "b7455f45b851bba5dca1dad80faa7def": "dbea28b305e94e00dc9048128cb7d4be3d7fa3dc885fb41661ff3220a3c60097",
+    "31782b8243792887a1c94df53c59ad67": "03aedd135b923ce2294205d3e365c376588498741fb1ad65bfcebc842546a568",
+    "d7a68124c5b2b50b40f891b7ec719bca": "537a15500e92b738beabda44534ecd3dbe8f392a8f9fcc508b458ed0e8b3c0bf"
+  }
+}

@@ -10,8 +10,18 @@
 
 # Key Tar Secure Vault: npm install -g node-gyp && npm install 
 
+# encoding and decoding
+const zlib = require('zlib');
 
-# TODO:
-1. Refresh token
-2. Logout
-3. Remove repo
+// Original string
+const input = "This is a sample string that needs to be compressed and encoded.";
+
+// Compress and encode
+const compressed = zlib.gzipSync(input);
+const encoded = compressed.toString('base64');
+console.log("Encoded:", encoded);
+
+// Decode and decompress
+const decoded = Buffer.from(encoded, 'base64');
+const decompressed = zlib.gunzipSync(decoded).toString();
+console.log("Decompressed:", decompressed);
