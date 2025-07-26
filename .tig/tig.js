@@ -5,6 +5,7 @@ import runRegister from "./register.js"
 import runLogin from "./login.js"
 import runLogout from "./logout.js"
 import runAddRepo from "./addRepo.js"
+import runPull from "./pull.js"
 import runConfig from "./config.js"
 
 const args = process.argv.splice(2);
@@ -23,6 +24,8 @@ else if (args[0] === "logout" && args.length === 1) runLogout();
 else if (args[0] === "add-repo" && args.length === 2) runAddRepo(args[1]);
 
 else if (args[0] === "config" && args.length === 1) runConfig();
+
+else if (args[0] === "pull" && args.length === 1) runPull();
 
 else {
     console.log("Not a valid cmd: tig", args.join(' '))
